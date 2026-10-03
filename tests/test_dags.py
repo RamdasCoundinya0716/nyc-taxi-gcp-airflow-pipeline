@@ -16,7 +16,7 @@ EXPECTED = {
 def dagbag():
     from airflow.dag_processing.dagbag import DagBag
 
-    return DagBag(dag_folder=str(DAG_DIR), include_examples=False)
+    return DagBag(dag_folder=str(DAG_DIR))
 
 
 def test_no_import_errors(dagbag):

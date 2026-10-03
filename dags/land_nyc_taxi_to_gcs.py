@@ -5,7 +5,7 @@ import requests
 from airflow.sdk import Variable, dag, task
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
 
-BUCKET = Variable.get("GCS_BUCKET", default="nyc-taxi-pipeline-510514-data")
+BUCKET = Variable.get("GCS_BUCKET", default="your-bucket")
 MONTHS = Variable.get("TAXI_MONTHS", default="2024-01,2024-02,2024-03").split(",")
 BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data"
 RAW_PREFIX = "raw/yellow_taxi"

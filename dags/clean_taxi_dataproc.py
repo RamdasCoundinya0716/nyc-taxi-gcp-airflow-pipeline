@@ -9,7 +9,7 @@ from airflow.providers.google.cloud.operators.dataproc import (
 from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
 from airflow.sdk import DAG, Variable
 
-PROJECT = Variable.get("GCP_PROJECT_ID", default="nyc-taxi-pipeline-510514")
+PROJECT = Variable.get("GCP_PROJECT_ID", default="your-gcp-project-id")
 REGION = Variable.get("GCP_REGION", default="asia-south1")
 BUCKET = Variable.get("GCS_BUCKET", default="your-bucket")
 MONTHS = Variable.get("TAXI_MONTHS", default="2024-01,2024-02,2024-03")

@@ -5,11 +5,11 @@ The benchmark runs identical queries on the flat and the partitioned+clustered
 table with the query cache off and logs bytes processed for each.
 """
 from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta, timezone
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.sdk import DAG, Variable, task
 
-PROJECT = Variable.get("GCP_PROJECT_ID", default="nyc-taxi-pipeline-510514")
+PROJECT = Variable.get("GCP_PROJECT_ID", default="your-gcp-project-id")
 REGION = Variable.get("GCP_REGION", default="asia-south1")
 DATASET = "nyc_taxi"
 T = f"`{PROJECT}.{DATASET}.yellow_trips`"
@@ -82,6 +82,32 @@ with DAG(
                 f"{k}_{m}": v for k, d in stats.items() for m, v in d.items()}}
             print("BENCHMARK", row)
             results.append(row)
+        run_ts = datetime.now(timezone.utc).isoformat()
+        rows = [
+            {
+                "run_ts": run_ts,
+                "query_name": r["query"],
+                "table_type": t,
+                "bytes_processed": r[f"{t}_bytes"],
+                "runtime_ms": r[f"{t}_ms"],
+                "slot_ms": r[f"{t}_slot_ms"],
+            }
+            for r in results
+            for t in ("flat", "partitioned")
+        ]
+        schema = [
+            bigquery.SchemaField("run_ts", "TIMESTAMP"),
+            bigquery.SchemaField("query_name", "STRING"),
+            bigquery.SchemaField("table_type", "STRING"),
+            bigquery.SchemaField("bytes_processed", "INTEGER"),
+            bigquery.SchemaField("runtime_ms", "INTEGER"),
+            bigquery.SchemaField("slot_ms", "INTEGER"),
+        ]
+        client.load_table_from_json(
+            rows,
+            f"{PROJECT}.{DATASET}.benchmark_results",
+            job_config=bigquery.LoadJobConfig(schema=schema, write_disposition="WRITE_APPEND"),
+        ).result()
         return results
 
     quality_checks >> benchmark()

@@ -13,7 +13,7 @@ from airflow.providers.google.cloud.operators.bigquery import (
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.sdk import DAG, Variable
 
-PROJECT = Variable.get("GCP_PROJECT_ID", default="nyc-taxi-pipeline-510514")
+PROJECT = Variable.get("GCP_PROJECT_ID", default="your-gcp-project-id")
 REGION = Variable.get("GCP_REGION", default="asia-south1")
 BUCKET = Variable.get("GCS_BUCKET", default="your-bucket")
 DATASET = "nyc_taxi"

@@ -6,9 +6,11 @@ table with the query cache off and logs bytes processed for each.
 """
 from datetime import datetime, timedelta, timezone
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
+from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
+from google.cloud import bigquery
 from airflow.sdk import DAG, Variable, task
 
-PROJECT = Variable.get("GCP_PROJECT_ID", default="your-gcp-project-id")
+PROJECT = Variable.get("GCP_PROJECT_ID", default="nyc-taxi-pipeline-510514")
 REGION = Variable.get("GCP_REGION", default="asia-south1")
 DATASET = "nyc_taxi"
 T = f"`{PROJECT}.{DATASET}.yellow_trips`"
@@ -59,9 +61,6 @@ with DAG(
 
     @task
     def benchmark() -> list[dict]:
-        from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
-        from google.cloud import bigquery
-
         client = BigQueryHook().get_client(project_id=PROJECT, location=REGION)
         cfg = bigquery.QueryJobConfig(use_query_cache=False)
         results = []

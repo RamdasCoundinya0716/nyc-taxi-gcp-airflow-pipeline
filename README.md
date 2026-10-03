@@ -83,4 +83,3 @@ Absolutely. I’d add a short **Results / Conclusion** paragraph after the bench
 
 ### What the benchmark shows
 Partitioning by `pickup_date` allows BigQuery to scan only the relevant date partitions instead of the entire table. Clustering by `pu_location_id` further reduces the data scanned when queries filter by pickup zone. Together, partitioning and clustering reduced bytes scanned by **99.7%** for the one-day + pickup-zone query and **91.4%** for the one-month query. This shows how appropriate physical table design can significantly reduce BigQuery scan costs while improving query efficiency.
-```

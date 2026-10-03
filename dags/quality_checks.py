@@ -4,7 +4,6 @@ Checks use BigQuery ASSERT, so the task fails if any rule is violated.
 The benchmark runs identical queries on the flat and the partitioned+clustered
 table with the query cache off and logs bytes processed for each.
 """
-from datetime import datetime, timedelta
 from datetime import datetime, timedelta, timezone
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.sdk import DAG, Variable, task

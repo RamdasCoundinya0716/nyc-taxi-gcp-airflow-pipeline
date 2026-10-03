@@ -1,10 +1,13 @@
 # NYC Taxi Batch Pipeline on GCP
 
 An end-to-end batch pipeline orchestrated with **Apache Airflow 3**: it ingests a year of NYC Yellow Taxi trip data into Cloud Storage, cleans it with **PySpark on an ephemeral Dataproc cluster**, loads it into **BigQuery** (partitioned + clustered), then gates the result with SQL data quality checks and a cost benchmark.
+### 📊 Cost Optimization Dashboard
 
-Cost optimization Dashboard: ![Click here to view Metrics](https://datastudio.google.com/reporting/53073bc3-5adf-4a6c-a5ca-86383c78b648)
+[**View BigQuery Cost & Performance Metrics →**](https://datastudio.google.com/reporting/53073bc3-5adf-4a6c-a5ca-86383c78b648)
 
-Benchmark methodology: The same analytical queries were executed against an unpartitioned baseline table and a partitioned + clustered table, with BigQuery query caching disabled. bytes_scanned measures the amount of data read by each query, while runtime_ms captures query execution time.
+Cost optimization Dashboard: (docs/dashboard.png)
+
+**Benchmark methodology**: The same analytical queries were executed against an unpartitioned baseline table and a partitioned + clustered table, with BigQuery query caching disabled. bytes_scanned measures the amount of data read by each query, while runtime_ms captures query execution time.
 
 ![Airflow DAG run](docs/airflow_dag_run.png)
 

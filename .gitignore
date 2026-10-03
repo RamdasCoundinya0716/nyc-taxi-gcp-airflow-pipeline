@@ -1,0 +1,18 @@
+# secrets
+.env
+keys/
+*.json
+
+# airflow runtime
+logs/
+config/
+plugins/
+airflow.db
+
+# python
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/

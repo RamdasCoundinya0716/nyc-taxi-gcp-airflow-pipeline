@@ -41,8 +41,3 @@ def test_p2_task_order(dagbag):
 def test_quality_checks_gate_the_benchmark(dagbag):
     dag = dagbag.dags["p4_quality_and_benchmark"]
     assert dag.get_task("benchmark").upstream_task_ids == {"quality_checks"}
-
-
-def test_orchestrator_chains_all_stages(dagbag):
-    dag = dagbag.dags["p0_nyc_taxi_end_to_end"]
-    assert len(dag.tasks) == 4

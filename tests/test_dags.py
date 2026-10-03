@@ -4,7 +4,6 @@ import pytest
 
 DAG_DIR = Path(__file__).resolve().parents[1] / "dags"
 EXPECTED = {
-    "p0_nyc_taxi_end_to_end",
     "p1_land_nyc_taxi_to_gcs",
     "p2_clean_taxi_dataproc",
     "p3_load_bigquery",
